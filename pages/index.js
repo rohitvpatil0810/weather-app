@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import axios from "axios";
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 import logo from "../public/cloudy-day.png";
 import search from "../public/place.png";
 import location1 from "../public/location.png";

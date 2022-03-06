@@ -91,7 +91,7 @@ export default function Home() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {/* <div className="">Weather App by Annonymous Ninja</div> */}
-      <div className=" bg-gradient-to-b from-cyan-500 to-blue-500 shadow-xl shadow-indigo-900 w-96 h-5/6 sm:w-80 sm:h-4/5 rounded-md relative">
+      <div className=" bg-gradient-to-b from-cyan-500 to-blue-500 shadow-xl shadow-indigo-900 w-11/12 h-5/6 md:w-80 md:h-4/5 rounded-md relative">
         <div className="bg-white mx-5 my-6 text-md rounded-xl flex justify-evenly">
           <div className="w-6 pt-2">
             <Image src={logo} alt="logo"></Image>
@@ -126,45 +126,47 @@ export default function Home() {
             </h1>
           </div>
         </div>
-        <div className="bg-white bg-opacity-60 rounded-t-2xl rounded-b-md px-5 py-6 grid grid-cols-2 w-full absolute bottom-0">
-          <div className="flex my-5">
-            <div className="w-7 pt-2 mr-3">
-              <Image src={thermometer} alt="search"></Image>
+        <div className="bg-white bg-opacity-60 rounded-t-2xl rounded-b-md px-5 py-6  w-full absolute bottom-0">
+          <div className="mx-auto grid grid-cols-2">
+            <div className="flex my-5">
+              <div className="w-7 pt-2 mr-3">
+                <Image src={thermometer} alt="search"></Image>
+              </div>
+              <div>
+                <h1 className="text-md">{current.feelslike_c} &#176;C</h1>
+                <h1 className="text-sm">Feels like</h1>
+              </div>
             </div>
-            <div>
-              <h1 className="text-md">{current.feelslike_c} &#176;C</h1>
-              <h1 className="text-sm">Feels like</h1>
+            <div className="flex my-5">
+              <div className="w-7 pt-2 mr-3">
+                <Image src={humidity} alt="search"></Image>
+              </div>
+              <div>
+                <h1 className="text-md">{current.humidity} %</h1>
+                <h1 className="text-sm">Humidity</h1>
+              </div>
+            </div>
+            <div className="flex my-5">
+              <div className="w-7 pt-2 mr-3">
+                <Image src={wind} alt="search"></Image>
+              </div>
+              <div>
+                <h1 className="text-md">{current.wind_kph} km/hr</h1>
+                <h1 className="text-sm">Wind</h1>
+              </div>
+            </div>
+            <div className="flex my-5">
+              <div className="w-7 pt-2 mr-3">
+                <Image src={rain} alt="search"></Image>
+              </div>
+              <div>
+                <h1 className="text-md">{current.precip_mm} mm</h1>
+                <h1 className="text-sm">Precipitation</h1>
+              </div>
             </div>
           </div>
-          <div className="flex my-5">
-            <div className="w-7 pt-2 mr-3">
-              <Image src={humidity} alt="search"></Image>
-            </div>
-            <div>
-              <h1 className="text-md">{current.humidity} %</h1>
-              <h1 className="text-sm">Humidity</h1>
-            </div>
-          </div>
-          <div className="flex my-5">
-            <div className="w-7 pt-2 mr-3">
-              <Image src={wind} alt="search"></Image>
-            </div>
-            <div>
-              <h1 className="text-md">{current.wind_kph} km/hr</h1>
-              <h1 className="text-sm">Wind</h1>
-            </div>
-          </div>
-          <div className="flex my-5">
-            <div className="w-7 pt-2 mr-3">
-              <Image src={rain} alt="search"></Image>
-            </div>
-            <div>
-              <h1 className="text-md">{current.precip_mm} mm</h1>
-              <h1 className="text-sm">Precipitation</h1>
-            </div>
-          </div>
+          <ToastContainer />
         </div>
-        <ToastContainer />
       </div>
     </div>
   );

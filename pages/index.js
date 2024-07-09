@@ -11,37 +11,16 @@ import thermometer from "../public/thermometer.png";
 import wind from "../public/wind.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 
-export default function Home() {
+export default function Home({ data, error }) {
   const [query, setQuery] = useState("Pune");
   const [location, setLocation] = useState({});
   const [current, setCurrent] = useState({});
   const [icon, setIcon] = useState("./cloudy.png");
   const [text, setText] = useState("Sunny");
 
-  const options = {
-    method: "GET",
-    url: "https://weatherapi-com.p.rapidapi.com/current.json",
-    params: { q: query },
-    headers: {
-      "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
-      "x-rapidapi-key": "90a8b1cdd3msh25ba421f08720c0p1ff006jsnea4b5ea7ef85",
-    },
-  };
-
-  const fetchData = () => {
-    axios
-      .request(options)
-      .then(function (response) {
-        setLocation(response.data.location);
-        setCurrent(response.data.current);
-        setIcon(response.data.current.condition.icon);
-        setText(response.data.current.condition.text);
-      })
-      .catch(function (error) {
-        toast.error("Something Went Wrong!");
-      });
-  };
+  const router = useRouter();
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -72,17 +51,25 @@ export default function Home() {
     let q = `${position.coords.latitude},${position.coords.longitude}`;
     q = q.toString();
     setQuery(q);
-    fetchData();
+    router.push(`/?location=${q}`);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchData();
+    router.push(`?location=${query}`);
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (error) {
+      toast.error("Something Went Wrong!");
+    } else {
+      console.log(data);
+      setLocation(data.location);
+      setCurrent(data.current);
+      setIcon(data.current.condition.icon);
+      setText(data.current.condition.text);
+    }
+  }, [data, error]);
 
   return (
     <div className="w-screen h-screen bg-gradient-to-b from-cyan-500 to-blue-900 centerdiv flex-col font-right">
@@ -170,4 +157,33 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ query }) {
+  console.log(query);
+  const options = {
+    method: "GET",
+    url: "https://weatherapi-com.p.rapidapi.com/current.json",
+    params: { q: query.location ? query.location : "Pune" },
+    headers: {
+      "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
+      "x-rapidapi-key": process.env.RAPID_API_KEY,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+
+    return {
+      props: {
+        data: response.data,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: true,
+      },
+    };
+  }
 }
